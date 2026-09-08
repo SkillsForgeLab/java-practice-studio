@@ -1,4 +1,4 @@
-package com.sree.basics;
+package com.sree.basics.bigDecimals;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
