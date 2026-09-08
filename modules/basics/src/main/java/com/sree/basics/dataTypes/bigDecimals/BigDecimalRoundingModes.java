@@ -1,4 +1,4 @@
-package com.sree.basics.bigDecimals;
+package com.sree.basics.dataTypes.bigDecimals;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
