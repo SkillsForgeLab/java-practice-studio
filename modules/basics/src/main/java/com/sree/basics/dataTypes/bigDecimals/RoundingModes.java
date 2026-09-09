@@ -3,7 +3,7 @@ package com.sree.basics.dataTypes.bigDecimals;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class BigDecimalRoundingModes {
+public class RoundingModes {
     public static void main(String[] args) {
         floorExamples();
         ceilingExamples();
@@ -12,7 +12,7 @@ public class BigDecimalRoundingModes {
     }
 
     private static void floorExamples() {
-        // -infinity <---------|---|---|---|---|---|---|---|---|-------> + infinity
+        // -infinity <---------|---|---|---|---|---|---|---|---|---------> + infinity
         //                   -.4 -.3 -.2 -.1   0  .1  .2  .3  .4
         //                        <------------------------ Moving towards negative infinity
         //  1.3 ->  1
@@ -33,7 +33,7 @@ public class BigDecimalRoundingModes {
     }
 
     private static void ceilingExamples() {
-        // -infinity <---------|---|---|---|---|---|---|---|---|-------> + infinity
+        // -infinity <---------|---|---|---|---|---|---|---|---|---------> + infinity
         //                   -.4 -.3 -.2 -.1   0  .1  .2  .3  .4
         //                Moving towards positive infinity ------------------------>
         //  1.3 ->  2
@@ -54,7 +54,7 @@ public class BigDecimalRoundingModes {
 
     private static void downExamples() {
         //               : DOWN
-        // -infinity <---------|---|---|---|---|---|---|---|---|-------> + infinity
+        // -infinity <---------|---|---|---|---|---|---|---|---|--------- + infinity
         //                   -.4 -.3 -.2 -.1   0  .1  .2  .3  .4
         //         ----------------> Moving towards zero <----------------
         //  1.3 ->  1
@@ -75,7 +75,7 @@ public class BigDecimalRoundingModes {
 
     private static void upExamples() {
         //             : UP
-        // -infinity <---------|---|---|---|---|---|---|---|---|-------> + infinity
+        // -infinity <---------|---|---|---|---|---|---|---|---|---------> + infinity
         //                   -.4 -.3 -.2 -.1   0  .1  .2  .3  .4
         //         <---------------- Moving away from zero ---------------->
         //  1.3 ->  2
