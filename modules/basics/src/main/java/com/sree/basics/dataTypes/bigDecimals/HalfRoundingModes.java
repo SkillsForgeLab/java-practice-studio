@@ -1,21 +1,31 @@
 package com.sree.basics.dataTypes.bigDecimals;
 
+import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
-public class HalfRoundingModes {
-    private static final BigDecimal point121 = BigDecimal.valueOf(0.121);
-    private static final BigDecimal point125 = BigDecimal.valueOf(0.125);
-    private static final BigDecimal point127 = BigDecimal.valueOf(0.127);
-    private static final BigDecimal point135 = BigDecimal.valueOf(0.135);
+public final class HalfRoundingModes {
+    private static final List<BigDecimal> EXAMPLE_VALUES = Collections.unmodifiableList(Arrays.asList(
+            new BigDecimal("0.121"),
+            new BigDecimal("0.125"),
+            new BigDecimal("0.127"),
+            new BigDecimal("0.135"),
+            new BigDecimal("-0.121"),
+            new BigDecimal("-0.125"),
+            new BigDecimal("-0.127"),
+            new BigDecimal("-0.135")
+    ));
 
-    private static final BigDecimal negPoint121 = point121.negate();
-    private static final BigDecimal negPoint125 = point125.negate();
-    private static final BigDecimal negPoint127 = point127.negate();
-    private static final BigDecimal negPoint135 = point135.negate();
+    private HalfRoundingModes() {
+    }
 
     public static void main(String[] args) {
-        printOriginalValues();
+        printOriginalValues(System.out, EXAMPLE_VALUES);
         halfUpExamples();
         // halfDownExamples();
         // halfEvenExamples();
@@ -47,7 +57,7 @@ public class HalfRoundingModes {
         RoundingMode rounding = RoundingMode.HALF_DOWN;
         int scale = 2;
 
-        printScaledRoundedValues(scale, rounding);
+        printScaledRoundedValues(System.out, EXAMPLE_VALUES, scale, rounding);
     }
 
     private static void halfUpExamples() {
@@ -76,7 +86,7 @@ public class HalfRoundingModes {
         RoundingMode rounding = RoundingMode.HALF_UP;
         int scale = 4;
 
-        printScaledRoundedValues(scale, rounding);
+        printScaledRoundedValues(System.out, EXAMPLE_VALUES, scale, rounding);
     }
 
     private static void halfEvenExamples() {
@@ -104,57 +114,52 @@ public class HalfRoundingModes {
         RoundingMode rounding = RoundingMode.HALF_EVEN;
         int scale = 2;
 
-        printScaledRoundedValues(scale, rounding);
+        printScaledRoundedValues(System.out, EXAMPLE_VALUES, scale, rounding);
+    }
+    public static List<BigDecimal> roundValues(
+            List<BigDecimal> values, int scale, RoundingMode rounding) {
+        Objects.requireNonNull(values, "values");
+        Objects.requireNonNull(rounding, "rounding");
+
+        List<BigDecimal> roundedValues = new ArrayList<>(values.size());
+        for (BigDecimal value : values) {
+            roundedValues.add(Objects.requireNonNull(value, "value").setScale(scale, rounding));
+        }
+        return roundedValues;
     }
 
+    public static void printScaledRoundedValues(
+            PrintStream output, List<BigDecimal> values, int scale, RoundingMode rounding) {
+        Objects.requireNonNull(output, "output");
+        List<BigDecimal> roundedValues = roundValues(values, scale, rounding);
 
-    private static void unnecessaryExamples() {
+        output.println("RoundingMode → " + rounding);
+        output.println("Scale → " + scale + "\n");
 
+        for (int index = 0; index < values.size(); index++) {
+            printValue(output, values.get(index), " rounds to → ", roundedValues.get(index));
+        }
+        output.println("\n-------------------------------\n");
     }
 
-    private static void printScaledRoundedValues(int scale, RoundingMode rounding) {
+    public static void printOriginalValues(PrintStream output, List<BigDecimal> values) {
+        Objects.requireNonNull(output, "output");
+        Objects.requireNonNull(values, "values");
 
-        BigDecimal point121r = point121.setScale(scale, rounding);
-        BigDecimal point125r = point125.setScale(scale, rounding);
-        BigDecimal point127r = point127.setScale(scale, rounding);
-        BigDecimal point135r = point135.setScale(scale, rounding);
-
-        BigDecimal negPoint121r = negPoint121.setScale(scale, rounding);
-        BigDecimal negPoint125r = negPoint125.setScale(scale, rounding);
-        BigDecimal negPoint127r = negPoint127.setScale(scale, rounding);
-        BigDecimal negPoint135r = negPoint135.setScale(scale, rounding);
-
-        System.out.println("RoundingMode → " + rounding);
-        System.out.println("Scale → " + scale + "\n");
-
-
-        System.out.println(" 0.121 rounds to →  " + point121r);
-        System.out.println(" 0.125 rounds to →  " + point125r);
-        System.out.println(" 0.127 rounds to →  " + point127r);
-        System.out.println(" 0.135 rounds to →  " + point135r);
-
-        System.out.println("-0.121 rounds to → " + negPoint121r);
-        System.out.println("-0.125 rounds to → " + negPoint125r);
-        System.out.println("-0.127 rounds to → " + negPoint127r);
-        System.out.println("-0.135 rounds to → " + negPoint135r);
-
-        System.out.println("\n-------------------------------\n");
+        output.println("\n-------------------------------\n");
+        output.println("Original values.\n");
+        for (BigDecimal value : values) {
+            BigDecimal nonNullValue = Objects.requireNonNull(value, "value");
+            printValue(output, nonNullValue, " → ", nonNullValue);
+        }
+        output.println("\n-------------------------------\n");
     }
 
-    private static void printOriginalValues() {
-        System.out.println("\n-------------------------------\n");
-        System.out.println("Original values.\n");
-        System.out.println(" 0.121 →  " + point121);
-        System.out.println(" 0.125 →  " + point125);
-        System.out.println(" 0.127 →  " + point127);
-        System.out.println(" 0.135 →  " + point135);
-
-        System.out.println("-0.121 → " + negPoint121);
-        System.out.println("-0.125 → " + negPoint125);
-        System.out.println("-0.127 → " + negPoint127);
-        System.out.println("-0.135 → " + negPoint135);
-
-        System.out.println("\n-------------------------------\n");
+    private static void printValue(
+            PrintStream output, BigDecimal value, String separator, BigDecimal result) {
+        String leadingSpace = value.signum() >= 0 ? " " : "";
+        String resultPadding = value.signum() >= 0 ? " " : "";
+        output.println(
+                leadingSpace + value.toPlainString() + separator + resultPadding + result.toPlainString());
     }
-
 }

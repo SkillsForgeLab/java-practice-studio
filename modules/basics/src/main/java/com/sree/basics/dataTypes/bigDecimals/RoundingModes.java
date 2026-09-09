@@ -1,9 +1,19 @@
 package com.sree.basics.dataTypes.bigDecimals;
 
+import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Objects;
 
-public class RoundingModes {
+public final class RoundingModes {
+    private static final BigDecimal ONE = BigDecimal.ONE;
+    private static final BigDecimal THREE = BigDecimal.valueOf(3);
+    private static final int EXAMPLE_SCALE = 4;
+    private static final String EXAMPLE_FORMAT = "%20.4f\n";
+
+    private RoundingModes() {
+    }
+
     public static void main(String[] args) {
         floorExamples();
         ceilingExamples();
@@ -18,18 +28,7 @@ public class RoundingModes {
         //  1.3 ->  1
         // -1.3 -> -2
 
-        BigDecimal oneThird = BigDecimal.ONE
-                .divide(BigDecimal.valueOf(3), 4, RoundingMode.FLOOR);
-
-        BigDecimal negativeOneThird = BigDecimal.ONE.negate()
-                .divide(BigDecimal.valueOf(3), 4, RoundingMode.FLOOR);
-
-        System.out.println("\n\n-----------------------------\n");
-
-        System.out.println("Moving towards negative infinity : FLOOR\n");
-        System.out.printf("%20.4f\n", oneThird);
-        System.out.printf("%20.4f\n", negativeOneThird);
-
+        printExamples(System.out, "Moving towards negative infinity : FLOOR", RoundingMode.FLOOR);
     }
 
     private static void ceilingExamples() {
@@ -39,17 +38,7 @@ public class RoundingModes {
         //  1.3 ->  2
         // -1.3 -> -1
 
-        BigDecimal oneThird = BigDecimal.ONE
-                .divide(BigDecimal.valueOf(3), 4, RoundingMode.CEILING);
-
-        BigDecimal negativeOneThird = BigDecimal.ONE.negate()
-                .divide(BigDecimal.valueOf(3), 4, RoundingMode.CEILING);
-
-        System.out.println("\n\n-----------------------------\n");
-
-        System.out.println("Moving towards positive infinity : CEILING\n");
-        System.out.printf("%20.4f\n", oneThird);
-        System.out.printf("%20.4f\n", negativeOneThird);
+        printExamples(System.out, "Moving towards positive infinity : CEILING", RoundingMode.CEILING);
     }
 
     private static void downExamples() {
@@ -60,17 +49,7 @@ public class RoundingModes {
         //  1.3 ->  1
         // -1.3 -> -1
 
-        BigDecimal oneThird = BigDecimal.ONE
-                .divide(BigDecimal.valueOf(3), 4, RoundingMode.DOWN);
-
-        BigDecimal negativeOneThird = BigDecimal.ONE.negate()
-                .divide(BigDecimal.valueOf(3), 4, RoundingMode.DOWN);
-
-        System.out.println("\n\n-----------------------------\n");
-
-        System.out.println("Moving towards zero : DOWN\n");
-        System.out.printf("%20.4f\n", oneThird);
-        System.out.printf("%20.4f\n", negativeOneThird);
+        printExamples(System.out, "Moving towards zero : DOWN", RoundingMode.DOWN);
     }
 
     private static void upExamples() {
@@ -81,16 +60,19 @@ public class RoundingModes {
         //  1.3 ->  2
         // -1.3 -> -2
 
-        BigDecimal oneThird = BigDecimal.ONE
-                .divide(BigDecimal.valueOf(3), 4, RoundingMode.UP);
+        printExamples(System.out, "Moving away from zero : UP", RoundingMode.UP);
+    }
 
-        BigDecimal negativeOneThird = BigDecimal.ONE.negate()
-                .divide(BigDecimal.valueOf(3), 4, RoundingMode.UP);
+    public static void printExamples(PrintStream output, String description, RoundingMode rounding) {
+        Objects.requireNonNull(output, "output");
+        Objects.requireNonNull(description, "description");
+        Objects.requireNonNull(rounding, "rounding");
 
-        System.out.println("\n\n-----------------------------\n");
-
-        System.out.println("Moving away from zero : UP\n");
-        System.out.printf("%20.4f\n", oneThird);
-        System.out.printf("%20.4f\n", negativeOneThird);
+        output.println("\n\n-----------------------------\n");
+        output.println(description + "\n");
+        BigDecimals.print(
+                output, BigDecimals.divide(ONE, THREE, EXAMPLE_SCALE, rounding), EXAMPLE_FORMAT);
+        BigDecimals.print(
+                output, BigDecimals.divide(ONE.negate(), THREE, EXAMPLE_SCALE, rounding), EXAMPLE_FORMAT);
     }
 }
