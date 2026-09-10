@@ -1,6 +1,6 @@
 package com.sree.basics.dataTypes.arrays;
 
-public class BMultiDimensionalArrays {
+public class CMultiDimensionalArrays {
     // multi-dimensional: array of arrays - can be non-rectangular
     //                    { {1, 2, 3}, {3, 4}, {4, 5, 6, 7) }
 
