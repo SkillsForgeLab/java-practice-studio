@@ -1,4 +1,4 @@
-package com.sree.basics.dataTypes.arrays;
+package com.sree.basics.dataTypes.arrays.compare;
 
 import java.util.Arrays;
 import java.util.Objects;
